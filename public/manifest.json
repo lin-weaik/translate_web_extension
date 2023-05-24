@@ -5,9 +5,16 @@
   "action": {
     "default_popup": "index.html"
   },
-    "permissions": [
-      "activeTab"
-    ],
+  "background": {
+    "service_worker": "static/js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["static/js/content.js"]
+    }
+  ],
+  "permissions": ["activeTab", "storage"],
   "icons": {
     "192": "./icon/logo192.png"
   }

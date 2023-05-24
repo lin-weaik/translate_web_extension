@@ -1,0 +1,38 @@
+.App_pop {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.App_pop .title {
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 38px;
+}
+
+.App_pop input, .App_pop select {
+    width: 100%;
+    margin-top: 8px;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.App_pop button {
+    margin-top: 18px;
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    background-color:blanchedalmond;
+    padding: 0;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+}
