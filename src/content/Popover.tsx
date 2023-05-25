@@ -1,3 +1,5 @@
+import useLanguage from "@/hooks/useLanguage";
+import useOpenAIKey from "@/hooks/useOpenAIKey";
 import useTranslate from "@/hooks/useTranslate";
 import { useEffect, useState } from "react";
 
@@ -8,7 +10,7 @@ function calculateButtonPosition(selection: Selection): [number, number] {
 }
 
 function Popover() {
-  const [language, setLanguage] = useState('中文')
+  const language = useLanguage()
   const t = useTranslate(language);
   const [selectText, setSelectText] = useState("");
   const [pos, setPos] = useState<[number, number]>([0, 0]);
@@ -16,22 +18,7 @@ function Popover() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState('');
-  useEffect(() => {
-    chrome?.storage?.sync?.get('language').then(res => {
-      if (res.language) {
-        setLanguage(res.language)
-      }
-    })
-    const storageChange = ({ language }: { [key: string]: chrome.storage.StorageChange }) => {
-      if (language?.newValue) {
-        setLanguage(language?.newValue)
-      }
-    }
-    chrome?.storage?.onChanged?.addListener(storageChange)
-    return () => {
-      chrome?.storage?.onChanged?.removeListener(storageChange)
-    }
-  }, [])
+  useOpenAIKey()
 
   useEffect(() => {
     const handleMouseupChange = () => {

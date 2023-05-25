@@ -1,18 +1,29 @@
-import { DEFALUT_OPENAI_KEY, OPENAI_ORGANIZATION } from "@/const";
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
 
 export class ChatGPTClient {
   prompt?: string;
   openai: OpenAIApi;
+  apiKey?: string;
   history: ChatCompletionRequestMessage[] = [];
-  constructor(options?: { prompt?: string }) {
+  constructor(options?: { prompt?: string, apiKey?: string }) {
     if (options?.prompt) this.prompt = options.prompt;
+    this.apiKey = options?.apiKey;
     const configuration = new Configuration({
-      apiKey: DEFALUT_OPENAI_KEY,
+      apiKey: options?.apiKey,
+    });
+    this.openai = new OpenAIApi(configuration);
+  }
+  setApiKey(apiKey: string) {
+    this.apiKey = apiKey;
+    const configuration = new Configuration({
+      apiKey: apiKey,
     });
     this.openai = new OpenAIApi(configuration);
   }
   async sendZeroMessage(message: string, options?: { model?: string }) {
+    if (!this.apiKey) {
+      throw new Error('must openai key')
+    }
     const model = options?.model || "gpt-3.5-turbo";
     const messages: ChatCompletionRequestMessage[] = [
       { role: "user", content: message },
@@ -29,6 +40,9 @@ export class ChatGPTClient {
     }
   }
   async sendMessage(message: string, options?: { model?: string }) {
+    if (!this.apiKey) {
+      throw new Error('must openai key')
+    }
     const model = options?.model || "gpt-3.5-turbo";
     const messages: ChatCompletionRequestMessage[] = [
       ...this.history,
